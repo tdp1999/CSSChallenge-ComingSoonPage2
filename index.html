@@ -1,33 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Base Apparel coming soon page</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
+    <title>Base Apparel Coming Soon Page</title>
+
+    <style>
+        /*
+        Primary
+        Desaturated Red: hsl(0, 36%, 70%) CE9797FF *
+        Soft Red: hsl(0, 93%, 68%) F96262FF
+        Neutral
+        Dark Grayish Red: hsl(0, 6%, 24%) 413A3AFF *
+        Gradients
+        Linear, 135deg, from hsl(0, 0%, 100%) FFFFFFFF, to hsl(0, 100%, 98%) FFF5F5FF
+          background: rgb(255,255,255);
+          background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,245,245,1) 100%);
+        Linear, 135deg, from hsl(0, 80%, 86%) F8BFBFFF, to hsl(0, 74%, 74%) EE8C8CFF
+          background: rgb(248,191,191);
+          background: linear-gradient(135deg, rgba(248,191,191,1) 0%, rgba(238,140,140,1) 100%);
+        */
+        body {
+            font-size: 16px;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        button img {
+            background: rgb(248,191,191);
+            background: linear-gradient(135deg, rgba(248,191,191,1) 0%, rgba(238,140,140,1) 100%);
+        }
+        button:hover img {
+            background: rgb(232,203,203);
+            background: linear-gradient(135deg, rgba(232,203,203,1) 0%, rgba(222,183,183,1) 100%);
+        }
+    </style>
 </head>
 <body>
 
-  We're coming soon
+<div class="h-full min-h-screen flex flex-col lg:flex-row lg:justify-between text-[#CE9797FF] bg-[url('images/bg-pattern-desktop.svg')]">
+    <div class="lg:flex lg:flex-col lg:px-16 lg:py-4 lg:basis-[50%]">
+        <div class="p-8">
+            <img src="images/logo.svg" alt="logo" class="max-w-[100px]">
+        </div>
 
-  Hello fellow shoppers! We're currently building our new fashion store. 
-  Add your email below to stay up-to-date with announcements and our launch deals.
+        <img src="images/hero-mobile.jpg" alt="hero-mobile" class="w-full h-auto max-h-[300px] object-cover object-top mb-12 lg:hidden">
 
-  Email Address
-  
-  <footer>
-    <p class="attribution">
-      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-      Coded by <a href="#">Your Name Here</a>.
-    </p>
-  </footer>
+        <div class="px-8 text-center lg:text-left my-auto lg:max-w-lg">
+            <h1 class="uppercase text-5xl lg:text-6xl tracking-widest mb-4">
+                <span class="font-light">We're</span> <br>
+                <span class="font-semibold text-[#413A3AFF]">coming <br> soon</span>
+            </h1>
+            <div class="text-sm lg:text-base font-semibold mb-8">
+                Hello fellow shoppers! We're currently building our new fashion store. Add your email below to stay up-to-date with announcements and our launch deals.
+            </div>
+            <form id="form" class="relative mb-12">
+                <input id="email" type="email" placeholder="Email Address"
+                       class="border border-[#CE9797FF] rounded-full py-3 pl-5 lg:py-4 w-full text-sm focus:outline-none">
+                <small id="errorMessage" class="absolute -bottom-6 left-5 text-[#F96262FF] hidden"> Please provide a valid email </small>
+                <img id="iconError" src="images/icon-error.svg" alt="icon-error" class="hidden absolute w-5 right-[4.5rem] lg:right-[100px] top-1/2 -translate-y-1/2">
+                <button type="submit" class="absolute right-0 top-1/2 -translate-y-1/2 drop-shadow-lg transition-all">
+                    <img src="images/icon-arrow.svg" alt="icon-arrow" class="py-3 px-6 lg:py-4 lg:px-10 rounded-full">
+                </button>
+            </form>
+        </div>
+    </div>
+    <img src="images/hero-desktop.jpg" alt="hero-desktop" class="hidden lg:block max-h-screen basis-[50%] object-cover object-top">
+
+</div>
+<script>
+    const formD = document.querySelector('#form')
+    const input = document.querySelector('#email')
+    const errorMessage = document.querySelector('#errorMessage')
+    const iconError = document.querySelector('#iconError')
+    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    formD.addEventListener('submit', (e) => {
+        e.preventDefault()
+        if (!re.test(input.value)) {
+            input.classList.add('border-[#F96262FF]')
+            errorMessage.classList.remove('hidden')
+            iconError.classList.remove('hidden')
+        } else if (!errorMessage.classList.contains('hidden')) {
+            input.classList.remove('border-[#F96262FF]')
+            errorMessage.classList.add('hidden')
+            iconError.classList.add('hidden')
+        }
+        console.log('form summited: ', input.value)
+    })
+</script>
+
 </body>
 </html>
